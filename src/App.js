@@ -46,6 +46,13 @@ function App() {
     viewTasks();
   };
 
+  const editTask = async () => {
+    const userDoc = doc(db, "tasks", newID);
+    const newFields = { title: newTitle, description: newDescription, time: newTime };
+    await updateDoc(userDoc, newFields);
+    viewTasks();
+  };
+
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newTime, setNewTime] = useState("");
@@ -106,9 +113,9 @@ function App() {
           </Stack>
 
           
-          <Stack paddingTop={5} direction = {'row'} >
+          <Stack paddingTop={5} spacing = {1} direction = {'row'} >
 
-            <Button variant='contained' onClick = {createTask} style = {{width: 200, height: 50}}>Create Task</Button>
+            <Button color='success' variant='contained' onClick = {createTask} style = {{width: 200, height: 50}}>Create Task</Button>
 
             <Button variant='contained' onClick = {viewTasks} style = {{width: 200, height: 50}}>Update Task List</Button>
 
@@ -120,14 +127,22 @@ function App() {
           <TextareaAutosize
 
             minRows={2.5}
+            
+            style = {{width: 200}}
 
-            placeholder="ID to Delete"
+            placeholder="ID to Change"
             onChange={(event) => {
             setNewID(event.target.value);
 
             }}
           />
-            <Button variant='contained' onClick = {deleteTask} style = {{width: 200, height: 50}}>Delete Task</Button>
+
+          </Stack>
+
+          <Stack spacing = {1} paddingTop={5} direction = {'row'} >
+
+            <Button variant='contained' onClick = {editTask} style = {{width: 200, height: 50}}>Edit Task</Button>
+            <Button color='error' variant='contained' onClick = {deleteTask} style = {{width: 200, height: 50}}>Delete Task</Button>
 
           </Stack>
 
